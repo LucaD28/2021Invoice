@@ -28,11 +28,14 @@ public class Invoice {
             int numberOfProducts = line.getNumberOfProducts ();
             double linePrice = product.getPrice () * numberOfProducts;
             totalPrice += linePrice;
-            invoice.append (InvoiceFormatter.getLine (false,"%4d %-50s € %8.2f", numberOfProducts, product.getName (), linePrice));
+            invoice.append (InvoiceFormatter.getLine (false, "%4d %-50s € %8.2f", numberOfProducts, product.getName (), linePrice));
         }
 
-        invoice.append (InvoiceFormatter.getLine(true,"----------+"));
-        invoice.append (InvoiceFormatter.getLine(true,"€ %8.2f ", totalPrice));
+        invoice.append (InvoiceFormatter.getLine (true, "---------- +"));
+        invoice.append (InvoiceFormatter.getLine (true, "Subtotaal € %8.2f  ", totalPrice));
+        invoice.append (InvoiceFormatter.getLine (true, "21%% BTW   € %8.2f  ", totalPrice * 0.21));
+        invoice.append (InvoiceFormatter.getLine (true, "---------- +"));
+        invoice.append (InvoiceFormatter.getLine (true, "Totaal    € %8.2f  ", totalPrice * 1.21));
         invoice.append (InvoiceFormatter.getFooter());
         System.out.print (invoice);
     }

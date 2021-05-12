@@ -1,10 +1,12 @@
 public class InvoiceFormatter {
 
+    private static final int WIDTH = 68;
+
     /*
      * De header bestaat uit een lijn met 71 ='s.
      */
     public static String getHeader () {
-        return String.format ("%71s%n", "=".repeat (71));
+        return String.format ("%s%n", "=".repeat (WIDTH + 4));
     }
 
     /*
@@ -16,12 +18,17 @@ public class InvoiceFormatter {
         // formatters (%s, %d etc.) in line worden vervangen door de elementen van args.
         line = String.format (line, args);
 
+        // Als de regel breder wordt dan de beschikbare breedte (die in WIDTH is vastgelegd), dan worden
+        // 0 trailing spaces voor (indien rechts uitgelijnd) of achter line toegevoegd.
+        String trailingSpaces = line.length () > WIDTH ? "" : " ".repeat (WIDTH - line.length ());
+
         // De regel opent met een '=' en als de regel rechts moet worden uitgelijnd, wordt de regel
         // links opgevuld met spaties.
-        line = "= " + (rightAligned ? " ".repeat (67 - line.length ()) : "") + line;
+
+        line = rightAligned ? trailingSpaces + line : line + trailingSpaces;
 
         // De regel wordt aangevuld met spaties en aan het einde met een '='.
-        line += " ".repeat (69 - line.length ()) + " =\r\n";
+        line = "= " + line + " =\r\n";
         return line;
     }
 
