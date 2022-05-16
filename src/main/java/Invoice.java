@@ -39,4 +39,21 @@ public class Invoice {
         invoice.append (InvoiceFormatter.getFooter());
         System.out.print (invoice);
     }
+    public void printInvoice(Business business, ArrayList<InvoiceLine> lines){
+        double totalPrice = 0.0;
+        StringBuilder invoice = new StringBuilder();
+        invoice.append (InvoiceFormatter.getHeader ());
+        invoice.append (InvoiceFormatter.getLine(false,"Invoice Number: %d", getNextInvoiceNumber ()));
+        invoice.append (InvoiceFormatter.getEmptyLine ());
+        invoice.append (InvoiceFormatter.getEmptyLine ());
+        for (InvoiceLine line : lines) {
+            Product product = line.getProduct ();
+            int numberOfProducts = line.getNumberOfProducts ();
+            double linePrice = product.getPrice () * numberOfProducts;
+            totalPrice += linePrice;
+            invoice.append (InvoiceFormatter.getLine (false, "%4d %-50s € %8.2f", numberOfProducts, product.getName (), linePrice));
+        }
+        System.out.println(invoice);
+        System.out.println(business.getLastLinesOfInvoice(totalPrice));
+    }
 }
